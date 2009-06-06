@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+
+	<context:component-scan base-package="net.kaelog.tvshows"/>
+	<tx:annotation-driven transaction-manager="txManager" />
+
+	<bean id="pmf"
+		class="org.springframework.orm.jdo.LocalPersistenceManagerFactoryBean">
+		<property name="persistenceManagerFactoryName" value="transactions-optional" />
+	</bean>
+	
+	<bean id="txManager" class="org.springframework.orm.jdo.JdoTransactionManager">
+		<property name="persistenceManagerFactory" ref="pmf" />
+	</bean>
+	
+	<!--<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+		<property name="messageConverters">
+			<bean class="com.springsource.samples.restlist.web.BookmarkHttpMessageConverter"/>
+		</property>
+	</bean>
+	
+	<bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+		<property name="mediaTypes">
+			<map>
+				<entry key="json" value="#{bookmarks.contentType}"/>
+			</map>
+		</property>
+		<property name="order" value="0"/>
+	</bean>
+-->
+
+	<!--<bean name="bookmarks" class="com.springsource.samples.restlist.web.JsonObjectMapperView">
+		<constructor-arg value="bookmarkList"/>
+	</bean>
+	
+	<bean name="bookmark" class="com.springsource.samples.restlist.web.JsonObjectMapperView">
+		<constructor-arg value="bookmark"/>
+	</bean>
+	-->
+	<bean class="org.springframework.web.servlet.view.BeanNameViewResolver" p:order="1"/>
+	
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+		p:prefix="/WEB-INF/jsp/" p:suffix=".jsp" p:order="2" />
+</beans>
